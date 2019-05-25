@@ -1,0 +1,23 @@
+language: cpp
+
+compiler:
+  - gcc
+  - clang
+
+os:
+  - linux
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.6
+    packages:
+      - g++-7
+      - clang-3.6
+
+script:
+- cmake -H. -B_build -DBUILD_TESTS=ON
+- cmake --build _build --target test
+- cmake --build _build --target test -- ARGS=--verbose
+
