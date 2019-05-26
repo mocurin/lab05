@@ -1,0 +1,23 @@
+language: cpp
+
+os:
+  - linux
+
+before_install:
+  - pip install --user cpp-coveralls
+
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
+
+script:
+- cmake -H. -B_build -DBUILD_TESTS=ON
+- cmake --build _build
+- cmake --build _build --target test -- ARGS=--verbose
+
+after_success:
+  - coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
